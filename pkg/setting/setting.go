@@ -17,6 +17,19 @@ var (
 
 	PageSize  int
 	JwtSecret string
+
+	//数据库类型
+	DatabaseType string
+	//数据库用户名
+	DatabaseUser string
+	//数据库用户密码
+	DatabasePassword string
+	//数据库地址
+	DatabaseHost string
+	//数据库名称
+	DatabaseName string
+	//数据库中表前缀
+	TablePrefix string
 )
 
 //初始化配置信息
@@ -30,6 +43,7 @@ func init() {
 	LoadBase()
 	LoadServer()
 	LoadApp()
+	LoadDatabase()
 }
 
 //读取基础配置信息
@@ -57,4 +71,17 @@ func LoadApp() {
 
 	JwtSecret = sec.Key("JWT_SECRET").MustString("!@)*#)!@U#@*!@!)")
 	PageSize = sec.Key("PAGE_SIZE").MustInt(10)
+}
+
+func LoadDatabase() {
+	sec, err := Cfg.GetSection("database")
+	if err != nil {
+		log.Fatalf("Fail to get section 'database': %v", err)
+	}
+	DatabaseType = sec.Key("TYPE").MustString("")
+	DatabaseHost = sec.Key("HOST").MustString("")
+	DatabaseUser = sec.Key("USER").MustString("")
+	DatabasePassword = sec.Key("PASSWORD").MustString("")
+	DatabaseName = sec.Key("NAME").MustString("")
+	TablePrefix = sec.Key("TABLE_PREFIX").MustString("")
 }
