@@ -6,18 +6,22 @@ import (
 	"github.com/han/go-gin-example/pkg/setting"
 	"github.com/han/go-gin-example/routers/api"
 	"github.com/han/go-gin-example/routers/api/v1"
+
+	_ "github.com/han/go-gin-example/docs" //此处是必须的，要不然不能进行加载swagger
+	"github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 func InitRouter() *gin.Engine {
 	r := gin.New()
 
 	r.Use(gin.Logger())
-
 	r.Use(gin.Recovery())
 
 	gin.SetMode(setting.RunMode)
 
 	r.GET("/auth", api.GetAuth)
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	/*r.GET("/test", func(context *gin.Context) {
 		context.JSON(200, gin.H{
