@@ -1,10 +1,5 @@
 package models
 
-import (
-	"github.com/jinzhu/gorm"
-	"time"
-)
-
 type Tag struct {
 	Model
 	Name       string `json:"name"`
@@ -13,7 +8,7 @@ type Tag struct {
 	State      int    `json:"state"`
 }
 
-func (tag *Tag) BeforeCreate(scope *gorm.Scope) error {
+/*func (tag *Tag) BeforeCreate(scope *gorm.Scope) error {
 	scope.SetColumn("CreatedOn", time.Now().Unix())
 	return nil
 }
@@ -26,7 +21,7 @@ func (tag *Tag) BeforeUpdate(scope *gorm.Scope) error {
 func (tag *Tag) BeforeDelete(scope *gorm.Scope) error {
 	scope.SetColumn("DeletedOn", time.Now().Unix())
 	return nil
-}
+}*/
 
 //分页获取标签数据
 func GetTags(pageNum int, pageSize int, maps interface{}) (tags []Tag) {
@@ -52,10 +47,10 @@ func ExistTagByName(name string) bool {
 func AddTags(name string, state int, createBy string) Tag {
 	var tag Tag = Tag{
 		Model:      Model{},
-		Name:       "",
-		CreatedBy:  "",
-		ModifiedBy: "",
-		State:      0,
+		Name:       name,
+		CreatedBy:  createBy,
+		ModifiedBy: createBy,
+		State:      state,
 	}
 	db.Create(&tag)
 	return tag
