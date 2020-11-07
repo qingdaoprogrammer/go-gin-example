@@ -2,11 +2,10 @@ package models
 
 import (
 	"fmt"
-	"log"
-
 	"github.com/han/go-gin-example/pkg/setting"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"log"
 )
 
 var db *gorm.DB
@@ -20,7 +19,8 @@ type Model struct {
 
 //初始化数据库配置信息及连接数据库
 func init() {
-	db, err := gorm.Open(setting.DatabaseType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+	var err error
+	db, err = gorm.Open(setting.DatabaseType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		setting.DatabaseUser,
 		setting.DatabasePassword,
 		setting.DatabaseHost,
