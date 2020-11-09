@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/han/go-gin-example/models"
+	"github.com/han/go-gin-example/pkg/logging"
 	"github.com/han/go-gin-example/pkg/setting"
 	"github.com/han/go-gin-example/routers"
 	_ "github.com/swaggo/swag"
@@ -14,6 +16,9 @@ import (
 )
 
 func main() {
+	setting.SetUp()
+	logging.Setup()
+	models.Setup()
 	/*router := gin.Default()
 	router.GET("/test", func(context *gin.Context) {
 		context.JSON(200, gin.H{
@@ -45,10 +50,10 @@ func main() {
 	}*/
 	router := routers.InitRouter() //初始化路由
 	s := &http.Server{
-		Addr:           fmt.Sprintf(":%d", setting.HTTPPort),
+		Addr:           fmt.Sprintf(":%d", setting.ServerSetting.HttpPort),
 		Handler:        router,
-		ReadTimeout:    setting.ReadTimeout,
-		WriteTimeout:   setting.WriteTimeout,
+		ReadTimeout:    setting.ServerSetting.ReadTimeout,
+		WriteTimeout:   setting.ServerSetting.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
 

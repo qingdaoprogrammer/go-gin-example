@@ -4,8 +4,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/han/go-gin-example/middleware/jwt"
 	"github.com/han/go-gin-example/pkg/setting"
+	"github.com/han/go-gin-example/pkg/upload"
 	"github.com/han/go-gin-example/routers/api"
 	"github.com/han/go-gin-example/routers/api/v1"
+	"net/http"
 
 	_ "github.com/han/go-gin-example/docs" //此处是必须的，要不然不能进行加载swagger
 	"github.com/swaggo/gin-swagger"
@@ -18,10 +20,14 @@ func InitRouter() *gin.Engine {
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
 
-	gin.SetMode(setting.RunMode)
+	gin.SetMode(setting.ServerSetting.RunMode)
+
+	//加载静态文件
+	r.StaticFS("/upload/images", http.Dir(upload.GetImageFullPath()))
 
 	r.GET("/auth", api.GetAuth)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r.POST("/upload", api.UploadImage)
 
 	/*r.GET("/test", func(context *gin.Context) {
 		context.JSON(200, gin.H{

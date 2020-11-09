@@ -1,6 +1,7 @@
 package api
 
 import (
+	"github.com/han/go-gin-example/pkg/https"
 	"github.com/han/go-gin-example/pkg/logging"
 	"net/http"
 
@@ -55,9 +56,14 @@ func GetAuth(c *gin.Context) {
 		}
 	}
 
-	c.JSON(http.StatusOK, gin.H{
+	c.JSON(http.StatusOK, https.ResponseData{
+		Code: code,
+		Msg:  e.GetMsg(code),
+		Data: data,
+	})
+	/*c.JSON(http.StatusOK, gin.H{
 		"code": code,
 		"msg":  e.GetMsg(code),
 		"data": data,
-	})
+	})*/
 }

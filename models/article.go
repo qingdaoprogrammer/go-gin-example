@@ -12,6 +12,8 @@ type Article struct {
 	CreatedBy  string `json:"created_by"`
 	ModifiedBy string `json:"modified_by"`
 	State      int    `json:"state"`
+
+	CoverImageUrl string `json:"cover_image_url"`
 }
 
 /*func (article *Article) BeforeCreate(scope *gorm.Scope) error {
